@@ -70,8 +70,6 @@ export default function Page() {
     };
   };
 
-
-
   function cardRender(data, index) {
     return <Fragment key={index}>
       <PokemonCard index={index} pokemon={data} />
@@ -81,7 +79,7 @@ export default function Page() {
   return (
     <div className='p-4'>
       <header className='sticky z-10 top-0  bg-white py-2 px-4  shadow-black-50  shadow-2xl  rounded-b-lg mb-6'>
-        <SearchForm pokemonsTypes={pokemonTypes || []} resetFilter={resetFilter} onSearch={filterHandler} />
+        <SearchForm listItems={localDataArr} pokemonsTypes={pokemonTypes || []} resetFilter={resetFilter} onSearch={filterHandler} />
       </header>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
         {localDataArr.map(cardRender)}

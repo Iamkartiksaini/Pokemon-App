@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
-    const { id } = params;
+    const { id } = await params;
     const res = await fetch(`${baseUrl}/${id}`);
     const data = await res.json();
     const { name, types } = data;
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function PokemonDetailsPage({ params }) {
-    const { id } = params;
+    const { id } = await params;
     const res = await fetch(`${baseUrl}/${id}`);
     const data = await res.json();
     const { name, abilities, types, stats, moves, height, weight, sprites } = data;

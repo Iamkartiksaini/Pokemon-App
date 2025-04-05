@@ -1,7 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-export default function SearchForm({ onSearch, resetFilter, pokemonsTypes = [] }) {
+export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsTypes = [] }) {
+
+  const listMemo = useMemo(() => listItems, [])
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
 
@@ -17,7 +19,13 @@ export default function SearchForm({ onSearch, resetFilter, pokemonsTypes = [] }
   };
 
   function option(opt, index) {
-    return <option className="capitalize" key={index}>{opt}</option>
+    return <option value={opt} className="capitalize" key={index}>{opt}</option>
+  }
+
+  function dataListoption(opt, index) {
+    const [firstLetter, ...rest] = opt.name
+    const fullText = firstLetter.toUpperCase() + rest.join("")
+    return <option className="capitalize bg-red-300" value={fullText} key={index} />
   }
 
   return (
@@ -31,12 +39,15 @@ export default function SearchForm({ onSearch, resetFilter, pokemonsTypes = [] }
         {pokemonsTypes.length > 0 && pokemonsTypes.map(option)}
       </select>
       <input
-        type="text"
+        type="text" list="browsers"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search Pokémon"
         className="py-2 px-4 rounded-sm border border-gray-300"
       />
+      <datalist id="browsers">
+        {listMemo.length > 0 && listMemo.map(dataListoption)}
+      </datalist>
       <button type="submit" className=" py-2 px-4 rounded-sm bg-blue-500 hover:bg-blue-600  text-white">
         Search
       </button>
