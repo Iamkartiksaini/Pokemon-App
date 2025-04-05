@@ -19,9 +19,9 @@ export default function SearchForm({ onSearch, pokemonsTypes = [] }) {
       <select
         value={type}
         onChange={(e) => setType(e.target.value)}
-        className="mr-2 py-2 px-4 rounded-sm border border-gray-300"
+        className="mr-2 py-2 px-4 rounded-sm border capitalize border-gray-300"
       >
-        <option value="">Select Pokemon Type</option>
+        <option value="">All</option>
         {pokemonsTypes.map(option)}
       </select>
       <input
