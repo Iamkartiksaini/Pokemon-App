@@ -37,7 +37,6 @@ export default function Page() {
   }, [loadedPagesData])
 
   async function handlePageChange({ key }) {
-    // debugger
     const isAlreadyFetched = getData({ key })
     if (isAlreadyFetched) {
       setLocalDataArr(isAlreadyFetched)

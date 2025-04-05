@@ -1,5 +1,5 @@
 import usePagination from '@/hook/usePagination';
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 
 const Pagination = ({ handlePageChange, activeItemsCount, totalItems = 50, pageSize = 10 }) => {
     const {
@@ -9,14 +9,10 @@ const Pagination = ({ handlePageChange, activeItemsCount, totalItems = 50, pageS
         nextPage,
         prevPage,
         pageNumbers,
-    } = usePagination(totalItems, pageSize, activeItemsCount);
-
-    useEffect(() => {
-        handlePageChange({ key: currentPage })
-    }, [currentPage])
-
+    } = usePagination(totalItems, pageSize, activeItemsCount, handlePageChange);
 
     const pageBtns = pageNumbers()
+
     return (
         <div className=" flex items-center gap-4 justify-center mt-4">
             <button

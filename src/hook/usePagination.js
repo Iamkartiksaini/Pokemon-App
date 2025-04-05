@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 
-const usePagination = (totalItems, pageSize, activeItemsCount = []) => {
+const usePagination = (
+  totalItems,
+  pageSize,
+  activeItemsCount = [],
+  handlePageChange
+) => {
   const initPageNumber = Math.ceil(activeItemsCount.length / pageSize);
   const [currentPage, setCurrentPage] = useState(initPageNumber || 1);
   const [totalPages, setTotalPages] = useState(0);
@@ -9,8 +14,9 @@ const usePagination = (totalItems, pageSize, activeItemsCount = []) => {
     setTotalPages(Math.ceil(totalItems / pageSize));
   }, [totalItems, pageSize]);
 
-  const goToPage = (page) => {
+  const goToPage = async (page) => {
     if (page >= 1 && page <= totalPages) {
+      handlePageChange({ key: page });
       setCurrentPage(page);
     }
   };
