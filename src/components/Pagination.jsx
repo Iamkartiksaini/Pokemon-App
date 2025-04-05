@@ -1,7 +1,7 @@
 import usePagination from '@/hook/usePagination';
 import { Fragment } from 'react';
 
-const Pagination = ({ handlePageChange, activeItemsCount, totalItems = 50, pageSize = 10 }) => {
+const Pagination = ({ handlePageChange, activeItemsCount, totalItems = 50, pageSize = 20 }) => {
     const {
         currentPage,
         totalPages,
