@@ -1,0 +1,24 @@
+Features:
+1. Create a Pokémon search app using the Api’s from the below docs
+( https://pokeapi.co/docs/v2 )
+2. Create a form with following Two fields (Select: Pokémon Type, Input: Search)
+3. Display the list of Pokémon cards below the form
+4. The select box should have all the Pokémon types, which will filter the displayed list
+5. Entering the search term in the input will filter the Pokémon list
+6. On Click of any Pokémon card, the user will be redirected to another route/page
+which will have Pokémon details
+7. There will be a breadcrumb on the details page which will show the url path.
+(For example: Home -> PokemonName)
+8. The design must be responsive for mobile view
+Tech Stack to be used:
+1. Next.js (App router)
+2. Tailwind CSS
+Techniques to be used:
+1. Server and client components.
+2. Custom hooks to separate concerns from the UI.
+3. Server-side rendering
+4. Server actions
+5. Dynamic Routes
+
+
+https://pokeapi.co/api/v2/ability/?limit=20&offset=20
