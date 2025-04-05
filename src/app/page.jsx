@@ -3,6 +3,7 @@ import { useState, useEffect, Fragment } from 'react';
 import SearchForm from '../components/SearchForm';
 import PokemonCard from '../components/PokemonCard';
 import { fetchPokemons } from '@/utils/api';
+import Loader from '@/components/Loader';
 
 export default function Page() {
   const [apiData, setData] = useState(null);
@@ -19,7 +20,7 @@ export default function Page() {
   }, []);
 
   if (!apiData) {
-    return <h1>Loading....</h1>
+    return <Loader />
   }
   const filterHandler = ({ selectType, search }) => {
     const filteredData = apiData.data.filter((val) => {
