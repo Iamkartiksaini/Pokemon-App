@@ -14,6 +14,7 @@ export async function fetchPokemons() {
     const types = val.types.flatMap((data) => data.type.name);
     types.forEach((type) => pokemonsTypesObject.add(type));
     return {
+      id: val.id,
       name: val.name,
       sprites: val.sprites,
       types,
