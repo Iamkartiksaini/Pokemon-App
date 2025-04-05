@@ -22,7 +22,7 @@ export default function SearchForm({ onSearch, pokemonsTypes = [] }) {
         className="mr-2 py-2 px-4 rounded-sm border capitalize border-gray-300"
       >
         <option value="">All</option>
-        {pokemonsTypes.map(option)}
+        {pokemonsTypes.length > 0 && pokemonsTypes.map(option)}
       </select>
       <input
         type="text"

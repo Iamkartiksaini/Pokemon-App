@@ -1,19 +1,31 @@
+"use client"
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const Loader = () => {
-    const img = ["5", "8", "9", "10", "11", "15", "17"];
+    try {
+        const [randomIndex, setRandomIndex] = useState(0)
+        const img = ["5", "8", "9", "10", "11", "15", "17"];
 
-    const randomIndex = Math.floor(Math.random() * img.length);
-    const randomImage = img[randomIndex];
+        useEffect(() => {
+            const x = Math.floor(Math.random() * img.length);
+            setRandomIndex(x)
+        }, [])
+        const randomImage = img[randomIndex];
 
-    return (
+        return (
+            <div className='flex flex-col h-screen justify-center items-center gap-4'>
+                <Image style={{ width: "120px", height: "120px" }} width={120} height={120} src={`/assets/${randomImage}.svg`} alt='Pokemon' />
+                <h1>Loading...</h1>
+            </div>
+        );
+    } catch (error) {
         <div className='flex flex-col h-screen justify-center items-center gap-4'>
-            <Image width={120} height={120} src={`/assets/${randomImage}.svg`} alt='Pokemon' />
+            <Image style={{ width: "120px", height: "120px" }} width={120} height={120} src={`/assets/5.svg`} alt='Pokemon' />
             <h1>Loading...</h1>
         </div>
-    );
+    }
 };
 
 
