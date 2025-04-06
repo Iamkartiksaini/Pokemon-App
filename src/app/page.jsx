@@ -1,52 +1,31 @@
 "use client"
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment, useCallback } from 'react';
 import SearchForm from '../components/SearchForm';
 import PokemonCard, { ObserverComponent } from '../components/PokemonCard';
 import { fetchPokemons } from '@/utils/api';
 import Loader from '@/components/Loader';
 // import Pagination from '@/components/Pagination';
-import useLocalStorage from '@/hook/useStorage';
+import { useStoreValues } from '@/store/PokemonStore';
 
 export default function Page() {
+  const { storageItems, storagePokemonTypes, getData, saveNewData } = useStoreValues()
   const [apiData, setData] = useState(null);
-  const [localDataArr, setLocalDataArr] = useState(null);
-  const { loadedPagesData, pokemonTypes, getData, saveNewData } = useLocalStorage()
+  const [activeFilters, setActiveFilters] = useState({ type: "", keyword: "" })
 
-  const getDataFromApi = async () => {
-    const data = await fetchPokemons(0);
-    setData(data);
-
-    if (loadedPagesData !== null) {
-      const flatObj = Object.entries(loadedPagesData).flatMap(([key, val]) => val)
-      setLocalDataArr(flatObj)
-    }
-    else {
-      setLocalDataArr(data.data)
-    }
-  };
+  const getDataFromApi = useCallback(async () => {
+    const resp = await fetchPokemons(0);
+    setData(resp)
+    saveNewData({ key: "0", data: resp.data })
+  }, []);
 
   useEffect(() => {
-    if (loadedPagesData !== null) {
-      const flatObj = Object.entries(loadedPagesData).flatMap(([key, val]) => val)
-      setLocalDataArr(flatObj)
-    }
-  }, [loadedPagesData])
-
-
-  useEffect(() => {
-    getDataFromApi(0)
+    getDataFromApi()
   }, [])
-
-  useEffect(() => {
-    if (localDataArr !== null) {
-      saveNewData({ key: "0", data: localDataArr })
-    }
-  }, [apiData])
 
   async function handlePageChange({ key }) {
     const isAlreadyFetched = getData({ key })
     if (isAlreadyFetched) {
-      setLocalDataArr(isAlreadyFetched)
+      return
     }
     else {
       const data = await fetchPokemons(key)
@@ -54,32 +33,24 @@ export default function Page() {
     }
   }
 
-  if (!apiData) {
+  if (!apiData || !storageItems) {
     return <Loader />
   }
 
-  const filterHandler = ({ selectType, search }) => {
-    const filteredData = localDataArr.filter((val) => {
-      const matchesSearch = search === "" || val.name.toLowerCase().includes(search.toLowerCase());
-      const matchesType = selectType ? val.types.includes(selectType) : true;
-
-      return matchesSearch && matchesType;
-    });
-
-    setLocalDataArr(filteredData);
-  };
-
   const resetFilter = () => {
-    if (loadedPagesData !== null) {
-      const flatObj = Object.entries(loadedPagesData).flatMap(([key, val]) => val)
-      setLocalDataArr(flatObj)
-    };
+    setActiveFilters({ type: "", keyword: "" })
   };
+
+  let localDataArr = [...storageItems].filter((val) => {
+    const matchesSearch = activeFilters.keyword === "" || val.name.toLowerCase().includes(activeFilters.keyword.toLowerCase());
+    const matchesType = activeFilters.type ? val.types.includes(activeFilters.type) : true;
+    return matchesSearch && matchesType;
+  });
 
   function cardRender(data, index) {
-    if (index == localDataArr.length - 1) {
+    if (index == storageItems.length - 1) {
       return <Fragment key={index}>
-        <ObserverComponent handlePageChange={handlePageChange} currentItemsArr={localDataArr} index={index} pokemon={data} />
+        <ObserverComponent handlePageChange={handlePageChange} currentItemsArr={storageItems} index={index} pokemon={data} />
       </Fragment>
     }
     else {
@@ -91,12 +62,12 @@ export default function Page() {
 
   return (
     <div className='p-4'>
-      <header className='sticky z-10 top-0  bg-white py-2 px-4  shadow-black-50  shadow-2xl  rounded-b-lg mb-6'>
-        <SearchForm listItems={localDataArr} pokemonsTypes={pokemonTypes || []} resetFilter={resetFilter} onSearch={filterHandler} />
+      <header className='sticky z-10 top-2  bg-white border-2 border-gray-100  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
+        <SearchForm listItems={storageItems} pokemonsTypes={storagePokemonTypes || []} resetFilter={resetFilter} onSearch={setActiveFilters} />
       </header>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
+      {localDataArr.length == 0 ? <h3 className='text-center'>No Result Found</h3> : <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
         {localDataArr.map(cardRender)}
-      </div>
+      </div>}
       {/* <Pagination handlePageChange={handlePageChange} activeItemsCount={localDataArr} totalItems={apiData.count} /> */}
     </div>
   );

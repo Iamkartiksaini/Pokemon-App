@@ -20,7 +20,7 @@ export default function PokemonCard({ pokemon, index }) {
 }
 
 
-export const ObserverComponent = ({ pokemon, handlePageChange, currentItemsArr, }) => {
+export const ObserverComponent = ({ pokemon, index, handlePageChange, currentItemsArr, }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -29,6 +29,7 @@ export const ObserverComponent = ({ pokemon, handlePageChange, currentItemsArr, 
         if (entry.isIntersecting) {
           const currentPageNumber = currentItemsArr.length / 20;
           handlePageChange({ key: currentPageNumber });
+          console.log("reached to last item  =>", currentPageNumber)
         }
       },
       {
@@ -46,7 +47,7 @@ export const ObserverComponent = ({ pokemon, handlePageChange, currentItemsArr, 
       }
       observer.disconnect();
     };
-  }, []);
+  }, [index]);
 
   return (
     <div ref={ref}>

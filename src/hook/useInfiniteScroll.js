@@ -38,8 +38,3 @@ const useInfiniteScroll = ({
 };
 
 export default useInfiniteScroll;
-
-// How to add infinite scroller with obsever
-
-// Get the last element add it to obsever
-// whenver i got in viewport call api
