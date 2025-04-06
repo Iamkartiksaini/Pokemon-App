@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 export default function PokemonCard({ pokemon, index }) {
   const { sprites, name, id } = pokemon;
@@ -14,6 +15,42 @@ export default function PokemonCard({ pokemon, index }) {
           View Details
         </Link>
       </div>
+    </div>
+  );
+}
+
+
+export const ObserverComponent = ({ pokemon, handlePageChange, currentItemsArr, }) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const currentPageNumber = currentItemsArr.length / 20;
+          handlePageChange({ key: currentPageNumber });
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+      observer.disconnect();
+    };
+  }, []);
+
+  return (
+    <div ref={ref}>
+      <PokemonCard pokemon={pokemon} />
     </div>
   );
 }

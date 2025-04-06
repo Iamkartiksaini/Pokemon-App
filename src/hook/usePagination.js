@@ -21,14 +21,16 @@ const usePagination = (
     }
   };
 
-  const nextPage = () => {
+  const nextPage = async () => {
     if (currentPage < totalPages) {
+      handlePageChange({ key: currentPage + 1 });
       setCurrentPage((prev) => prev + 1);
     }
   };
 
-  const prevPage = () => {
+  const prevPage = async () => {
     if (currentPage > 1) {
+      handlePageChange({ key: currentPage - 1 });
       setCurrentPage((prev) => prev - 1);
     }
   };

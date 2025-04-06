@@ -1,10 +1,10 @@
 "use client"
 import { useState, useEffect, Fragment } from 'react';
 import SearchForm from '../components/SearchForm';
-import PokemonCard from '../components/PokemonCard';
+import PokemonCard, { ObserverComponent } from '../components/PokemonCard';
 import { fetchPokemons } from '@/utils/api';
 import Loader from '@/components/Loader';
-import Pagination from '@/components/Pagination';
+// import Pagination from '@/components/Pagination';
 import useLocalStorage from '@/hook/useStorage';
 
 export default function Page() {
@@ -12,22 +12,18 @@ export default function Page() {
   const [localDataArr, setLocalDataArr] = useState(null);
   const { loadedPagesData, pokemonTypes, getData, saveNewData } = useLocalStorage()
 
-  const getDataFromApi = async (type, search) => {
+  const getDataFromApi = async () => {
     const data = await fetchPokemons(0);
     setData(data);
-    setLocalDataArr(data.data)
-  };
 
-  useEffect(() => {
-    getDataFromApi(0)
-  }, [])
-
-
-  useEffect(() => {
-    if (localDataArr !== null) {
-      saveNewData({ key: "1", data: localDataArr })
+    if (loadedPagesData !== null) {
+      const flatObj = Object.entries(loadedPagesData).flatMap(([key, val]) => val)
+      setLocalDataArr(flatObj)
     }
-  }, [apiData])
+    else {
+      setLocalDataArr(data.data)
+    }
+  };
 
   useEffect(() => {
     if (loadedPagesData !== null) {
@@ -35,6 +31,17 @@ export default function Page() {
       setLocalDataArr(flatObj)
     }
   }, [loadedPagesData])
+
+
+  useEffect(() => {
+    getDataFromApi(0)
+  }, [])
+
+  useEffect(() => {
+    if (localDataArr !== null) {
+      saveNewData({ key: "0", data: localDataArr })
+    }
+  }, [apiData])
 
   async function handlePageChange({ key }) {
     const isAlreadyFetched = getData({ key })
@@ -70,9 +77,16 @@ export default function Page() {
   };
 
   function cardRender(data, index) {
-    return <Fragment key={index}>
-      <PokemonCard index={index} pokemon={data} />
-    </Fragment>
+    if (index == localDataArr.length - 1) {
+      return <Fragment key={index}>
+        <ObserverComponent handlePageChange={handlePageChange} currentItemsArr={localDataArr} index={index} pokemon={data} />
+      </Fragment>
+    }
+    else {
+      return <Fragment key={index}>
+        <PokemonCard index={index} pokemon={data} />
+      </Fragment>
+    }
   }
 
   return (
@@ -83,7 +97,9 @@ export default function Page() {
       <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
         {localDataArr.map(cardRender)}
       </div>
-      <Pagination handlePageChange={handlePageChange} activeItemsCount={localDataArr} totalItems={apiData.count} />
+      {/* <Pagination handlePageChange={handlePageChange} activeItemsCount={localDataArr} totalItems={apiData.count} /> */}
     </div>
   );
 }
+
+

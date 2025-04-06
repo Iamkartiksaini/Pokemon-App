@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 
 export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsTypes = [] }) {
 
-  const listMemo = useMemo(() => listItems, [])
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
 
@@ -46,7 +45,7 @@ export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsT
         className="py-2 px-4 rounded-sm border border-gray-300"
       />
       <datalist id="browsers">
-        {listMemo.length > 0 && listMemo.map(dataListoption)}
+        {listItems.length > 0 && listItems.map(dataListoption)}
       </datalist>
       <button type="submit" className=" py-2 px-4 rounded-sm bg-blue-500 hover:bg-blue-600  text-white">
         Search
