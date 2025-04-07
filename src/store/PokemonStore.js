@@ -65,8 +65,6 @@ export const StoreContextProvider = ({ children }) => {
     ? Object.entries(storageItems).flatMap(([key, val]) => val)
     : null;
 
-  console.log("renders");
-
   return (
     <StoreContext.Provider
       value={{

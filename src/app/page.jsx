@@ -5,9 +5,13 @@ import PokemonCard, { ObserverComponent } from '../components/PokemonCard';
 import { fetchPokemons } from '@/utils/api';
 import Loader from '@/components/Loader';
 // import Pagination from '@/components/Pagination';
-import { useStoreValues } from '@/store/PokemonStore';
+import StoreContextProvider, { useStoreValues } from '@/store/PokemonStore';
 
 export default function Page() {
+  return <StoreContextProvider><PageData /></StoreContextProvider>
+}
+
+function PageData() {
   const { storageItems, storagePokemonTypes, getData, saveNewData } = useStoreValues()
   const [apiData, setData] = useState(null);
   const [activeFilters, setActiveFilters] = useState({ type: "", keyword: "" })
@@ -62,7 +66,9 @@ export default function Page() {
 
   return (
     <div className='p-4'>
-      <header className='sticky z-10 top-2  bg-white border-2 border-gray-100  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
+      <header
+        style={{ backgroundColor: " #ffffff8f", backdropFilter: " blur(3px)" }}
+        className='sticky z-10 top-2 border-2 border-gray-100  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
         <SearchForm listItems={storageItems} pokemonsTypes={storagePokemonTypes || []} resetFilter={resetFilter} onSearch={setActiveFilters} />
       </header>
       {localDataArr.length == 0 ? <h3 className='text-center'>No Result Found</h3> : <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">

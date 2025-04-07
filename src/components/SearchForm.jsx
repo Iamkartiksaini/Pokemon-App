@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import Loader from "./Loader";
+import { HeaderPokemonIcon } from "./Loader";
+
 export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsTypes = [] }) {
 
   const [type, setType] = useState("");
@@ -23,8 +24,8 @@ export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsT
   return (
     <div className="flex gap-4 justify-between py-4 px-4">
       <div className="flex items-center gap-4 ">
-        <Loader height="h-auto" imgHeight="50px" imgWidth="50px" />
-        <h2 className="text-3xl text-red-400 font-bold">Pokémon App</h2>
+        <HeaderPokemonIcon imgHeight="50px" imgWidth="50px" />
+        <h2 className="text-xl md:text-3xl text-red-400 font-bold">Pokémon App</h2>
       </div>
       <div className=" grow-1 flex gap-4 items-center justify-center">
         <select

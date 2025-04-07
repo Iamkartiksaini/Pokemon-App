@@ -1,3 +1,4 @@
+import MultiImageViewer from '@/components/MultiImageViewer';
 import { baseUrl } from '@/utils/api';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,7 +38,7 @@ export default async function PokemonDetailsPage({ params }) {
             </div>
             <div className='shadow-blue-400 rounded-lg overflow-hidden'>
                 <div className="p-4 flex justify-center items-center bg-[#60e2c8]">
-                    <Image height={200} width={200} src={imageUrl} alt={name} />
+                    <MultiImageViewer options={sprites} name={name} defaultImageSrc={imageUrl} />
                 </div>
                 <div className="p-4  pt-8 flex flex-col gap-2 bg-[#fdc767]">
                     <p><strong>Name:</strong> <span>{name}</span></p>
