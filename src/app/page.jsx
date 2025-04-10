@@ -74,6 +74,7 @@ function PageData() {
       {localDataArr.length == 0 ? <h3 className='text-center'>No Result Found</h3> : <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
         {localDataArr.map(cardRender)}
       </div>}
+      <div id="moreItemLoader"></div>
       {/* <Pagination handlePageChange={handlePageChange} activeItemsCount={localDataArr} totalItems={apiData.count} /> */}
     </div>
   );

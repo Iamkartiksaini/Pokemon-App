@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Loader from "./Loader";
+import { createPortal } from "react-dom";
 
-export default function PokemonCard({ pokemon, index }) {
+export default function PokemonCard({ pokemon }) {
   const { sprites, name, id } = pokemon;
   const imageUrl = sprites['dream_world']?.front_default
 
@@ -22,14 +24,26 @@ export default function PokemonCard({ pokemon, index }) {
 
 export const ObserverComponent = ({ pokemon, index, handlePageChange, currentItemsArr, }) => {
   const ref = useRef();
+  const [isLoading, setisLoading] = useState(false)
+
+  async function fetchData(key) {
+    try {
+      setisLoading(true)
+      await handlePageChange({ key });
+    } catch (error) {
+      console.log(error.message)
+    }
+    finally {
+      setisLoading(false)
+    }
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           const currentPageNumber = currentItemsArr.length / 20;
-          handlePageChange({ key: currentPageNumber });
-          console.log("reached to last item  =>", currentPageNumber)
+          fetchData(currentPageNumber)
         }
       },
       {
@@ -48,10 +62,12 @@ export const ObserverComponent = ({ pokemon, index, handlePageChange, currentIte
       observer.disconnect();
     };
   }, [index]);
-
   return (
     <div ref={ref}>
       <PokemonCard pokemon={pokemon} />
+      {isLoading &&
+        createPortal(<Loader height="50vh" />, document.getElementById("moreItemLoader"), "12")
+      }
     </div>
   );
 }

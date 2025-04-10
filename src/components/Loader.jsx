@@ -2,11 +2,10 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
-const Loader = () => {
-
+const Loader = ({ height = "100vh" }) => {
     function Section({ src }) {
         const contianerClass = 'flex flex-col justify-center items-center gap-4 h-screen'
-        return <div className={contianerClass} >
+        return <div style={{ height }} className={contianerClass} >
             <Image style={{ width: "120px", height: "120px" }} width={120} src={src} height={120} alt='Pokemon' />
             <h1>Loading...</h1>
         </div>
