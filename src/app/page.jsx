@@ -6,6 +6,7 @@ import { fetchPokemons } from '@/utils/api';
 import Loader from '@/components/Loader';
 // import Pagination from '@/components/Pagination';
 import StoreContextProvider, { useStoreValues } from '@/store/PokemonStore';
+import Header from '@/components/Header';
 
 export default function Page() {
   return <StoreContextProvider><PageData /></StoreContextProvider>
@@ -65,11 +66,14 @@ function PageData() {
   }
 
   return (
-    <div className='p-4'>
+    <div className='p-4 overflow-x-hidden'>
+      <div className="md:hidden">
+        <Header listItems={storageItems} pokemonsTypes={storagePokemonTypes || []} resetFilter={resetFilter} onSearch={setActiveFilters} />
+      </div>
       <header
         style={{ backgroundColor: " #ffffff8f", backdropFilter: " blur(3px)" }}
-        className='sticky z-10 top-2 border-2 border-gray-100  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
-        <SearchForm listItems={storageItems} pokemonsTypes={storagePokemonTypes || []} resetFilter={resetFilter} onSearch={setActiveFilters} />
+        className='max-md:hidden sticky z-10 top-2 border-2 border-gray-100  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
+        <SearchForm />
       </header>
       {localDataArr.length == 0 ? <h3 className='text-center'>No Result Found</h3> : <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
         {localDataArr.map(cardRender)}

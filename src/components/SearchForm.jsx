@@ -22,12 +22,12 @@ export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsT
   }
 
   return (
-    <div className="flex gap-4 justify-between py-4 px-4">
+    <div className="flex gap-4 flex-wrap justify-between py-4 px-4">
       <div className="flex items-center gap-4 ">
         <HeaderPokemonIcon imgHeight="50px" imgWidth="50px" />
         <h2 className="text-xl md:text-3xl text-red-400 font-bold">Pokémon App</h2>
       </div>
-      <div className=" grow-1 flex gap-4 items-center justify-center">
+      <div className=" grow-1 flex  flex-wrap gap-4 items-center justify-center">
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
@@ -70,13 +70,13 @@ const InputField = ({ search, setSearch, listItems = [] }) => {
       key={index} > {fullText}</li >
   }
 
-  return <div className="relative h-full InputField">
+  return <div style={{ alignItems: "center" }} className="relative h-full flex justify-center InputField">
     <input
       type="text" list="browsers"
       value={text}
       onChange={(e) => setText(e.target.value)}
       placeholder="Search Pokémon"
-      className="py-2 px-4 h-full rounded-sm border border-gray-300"
+      className="py-2 px-4 h-full max-md:h-10 rounded-sm border border-gray-300"
     />
     <ul id="ul_List"
       className={`absolute left-0 top-[100%] w-full max-h-[300px] overflow-y-auto  border-1 border-gray-300 py-2 rounded-b-lg`}>
