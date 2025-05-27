@@ -73,7 +73,7 @@ function PageData() {
       <header
         style={{ backgroundColor: " #ffffff8f", backdropFilter: " blur(3px)" }}
         className='max-md:hidden sticky z-10 top-2 border-2 border-gray-100  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
-        <SearchForm />
+        <SearchForm istItems={storageItems} pokemonsTypes={storagePokemonTypes || []} resetFilter={resetFilter} onSearch={setActiveFilters} />
       </header>
       {localDataArr.length == 0 ? <h3 className='text-center'>No Result Found</h3> : <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
         {localDataArr.map(cardRender)}
