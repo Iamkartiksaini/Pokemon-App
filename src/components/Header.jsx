@@ -2,6 +2,7 @@
 
 import { HeaderPokemonIcon } from '@/components/Loader';
 import React, { useEffect, useState } from 'react'
+import { InputField } from './SearchForm';
 
 export default function Header({ listItems, onSearch, resetFilter, pokemonsTypes = [] }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -63,51 +64,11 @@ export default function Header({ listItems, onSearch, resetFilter, pokemonsTypes
                             <option className='text-black' value="">All</option>
                             {pokemonsTypes.length > 0 && pokemonsTypes.map(option)}
                         </select>
-                        <InputField search={search} setSearch={setSearch} listItems={listItems || []} />
-
+                        <InputField inputStyle={{ width: "100%" }} search={search} setSearch={setSearch} listItems={listItems || []} />
                     </div>
-
                 </div>
             </div>
         </header >
     )
-}
-
-
-const InputField = ({ search, setSearch, listItems = [] }) => {
-    const [text, setText] = useState(search)
-
-    useEffect(() => {
-        let tm = null
-        if (search == text) return
-        tm = setTimeout(() => {
-            setSearch(text)
-        }, 300)
-        return () => tm && clearTimeout(tm)
-    }, [text])
-
-    function dataListoption(opt, index) {
-        const [firstLetter, ...rest] = opt.name
-        const fullText = firstLetter.toUpperCase() + rest.join("")
-        return <li className="capitalize px-2 py-2 bg-white cursor-pointer hover:bg-gray-200"
-            onClick={(e) => {
-                setText(fullText)
-            }}
-            key={index} > {fullText}</li >
-    }
-
-    return <div className="relative h-full w-full  InputField">
-        <input
-            type="text" list="browsers"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Search Pokémon"
-            className="py-2 w-full px-4 h-full max-md:h-10 rounded-sm border border-gray-300"
-        />
-        <ul id="ul_List"
-            className={`absolute left-0 top-[100%] w-full max-h-[300px] overflow-y-auto  border-1 border-gray-300 py-2 rounded-b-lg`}>
-            {listItems.length > 0 ? listItems.map(dataListoption) : <p className="px-2 py-2 bg-white cursor-pointer">No results.</p>}
-        </ul>
-    </div>
 }
 

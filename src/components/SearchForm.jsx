@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { HeaderPokemonIcon } from "./Loader";
 
 export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsTypes = [] }) {
-
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
 
@@ -48,8 +47,9 @@ export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsT
   );
 }
 
-const InputField = ({ search, setSearch, listItems = [] }) => {
+export const InputField = ({ search, setSearch, inputStyle = {}, listItems = [] }) => {
   const [text, setText] = useState(search)
+  const [focus, setFocus] = useState(false)
 
   useEffect(() => {
     let tm = null
@@ -70,17 +70,28 @@ const InputField = ({ search, setSearch, listItems = [] }) => {
       key={index} > {fullText}</li >
   }
 
+  function activeFocus() {
+    setFocus(true)
+  }
+
+  function blurFocus() {
+    setFocus(false)
+  }
+
   return <div style={{ alignItems: "center" }} className="relative h-full flex justify-center InputField">
     <input
       type="text" list="browsers"
       value={text}
+      style={inputStyle}
+      onFocus={activeFocus}
+      onBlur={blurFocus}
       onChange={(e) => setText(e.target.value)}
       placeholder="Search Pokémon"
       className="py-2 px-4 h-full max-md:h-10 rounded-sm border border-gray-300"
     />
     <ul id="ul_List"
-      className={`absolute left-0 top-[100%] w-full max-h-[300px] overflow-y-auto  border-1 border-gray-300 py-2 rounded-b-lg`}>
-      {listItems.length > 0 ? listItems.map(dataListoption) : <p className="px-2 py-2 bg-white cursor-pointer">No results.</p>}
+      className={`absolute left-0 top-[100%] w-full max-h-[300px] overflow-y-auto  border-1 border-gray-300 py-2 rounded-b-lg ${focus && "active"}`}>
+      {listItems.length > 0 ? listItems.filter((val) => val.name.includes(text)).map(dataListoption) : <p className="px-2 py-2 bg-white cursor-pointer">No results.</p>}
     </ul>
   </div>
 }
