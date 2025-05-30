@@ -14,7 +14,6 @@ export default function Sidebar({ activeFilters, listItems, onSearch, resetFilte
         setSearch(activeFilters.keyword)
     }, [activeFilters])
 
-    console.log(type)
     const handleSubmit = (e) => {
         onSearch({ type, keyword: search });
     };

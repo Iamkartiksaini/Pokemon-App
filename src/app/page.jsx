@@ -1,5 +1,4 @@
 "use client"
-import "./app.scss"
 import { useState, useEffect, Fragment, useCallback } from 'react';
 import SearchForm from '../components/SearchForm';
 import PokemonCard, { ObserverComponent } from '../components/PokemonCard';

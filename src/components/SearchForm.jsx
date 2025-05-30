@@ -98,13 +98,12 @@ export const InputField = ({ search, setSearch, inputStyle = {}, listItems = [] 
 
   return <div
     onMouseLeave={blurFocus}
+    onMouseEnter={activeFocus}
     style={{ alignItems: "center" }} className="relative h-full flex justify-center InputField">
     <input
       type="text" list="browsers"
       value={text}
       style={inputStyle}
-      onFocus={activeFocus}
-      // onBlur={blurFocus}
       onChange={(e) => setText(e.target.value)}
       placeholder="Search Pokémon"
       className="py-2 px-4 h-full max-md:h-10 rounded-sm border border-gray-300"

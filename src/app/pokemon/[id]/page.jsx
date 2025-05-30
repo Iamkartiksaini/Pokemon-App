@@ -1,6 +1,5 @@
 import MultiImageViewer from '@/components/MultiImageViewer';
 import { baseUrl } from '@/utils/api';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
@@ -30,13 +29,13 @@ export default async function PokemonDetailsPage({ params }) {
 
     return (
         <div className={parentStyle}>
-            <div className='flex justify-between items-center gap-5 max-w-[400px] w-full   bg-white py-2 px-4  shadow-black-50  shadow-2xl  rounded-b-lg mb-6'>
+            <div className='flex justify-between bg-white items-center gap-5 max-w-[400px] w-full py-2 px-4  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
                 <Link className='border-2 hover:text-amber-600  hover:border-amber-600 py-1 px-3 m-0 h-fit text-blue-400  border-blue-400 rounded-sm' href={"/"}> ← Back</Link>
                 <h4 className='text-[#51ceb5]' style={{ fontFamily: "cursive" }} >
                     Pokemon Id :{id}
                 </h4 >
             </div>
-            <div className='shadow-blue-400 rounded-lg overflow-hidden'>
+            <div style={{ boxShadow: "0px 0px 20px 5px #676565" }} className='rounded-lg overflow-hidden'>
                 <div className="p-4 flex justify-center items-center bg-[#60e2c8]">
                     <MultiImageViewer options={sprites} name={name} defaultImageSrc={imageUrl} />
                 </div>
