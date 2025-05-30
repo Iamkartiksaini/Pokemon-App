@@ -9,7 +9,11 @@ export default function PokemonCard({ index, pokemon }) {
   const imageUrl = sprites['dream_world']?.front_default
 
   return (
-    <div data-aos="fade-up" style={{ transition: "all .3s ease-in-out" }} className="hover:scale-[1.1] overflow-hidden shadow-black-50 flex flex-col justify-between gap-4 shadow-2xl rounded-lg  m-2">
+    <div
+      data-aos="fade-up"
+      data-aos-delay="300"
+      style={{ transition: "all .3s ease-in-out" }}
+      className="Card hover:scale-[1.1] overflow-hidden shadow-black-50 flex flex-col justify-between gap-4 shadow-2xl rounded-lg  m-2">
       <Image loading="lazy" height={120} width={120} src={imageUrl} alt={name} className="w-[120px] h-[120px] object-contain mx-auto" />
       <div className="bg-gray-100 px-6 py-4 ">
         <h3 className="text-xl capitalize">{name}</h3>

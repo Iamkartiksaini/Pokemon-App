@@ -1,10 +1,19 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HeaderPokemonIcon } from "./Loader";
+import Sidebar from "./Sidebar";
 
-export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsTypes = [] }) {
+export default function SearchForm(props) {
+  const { activeFilters, listItems, onSearch, resetFilter, pokemonsTypes = [] } = props
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
+
+  const memoSidebar = useMemo(() => <Sidebar {...props} />, [activeFilters.type, activeFilters.keyword])
+
+  useEffect(() => {
+    setType(activeFilters.type)
+    setSearch(activeFilters.keyword)
+  }, [activeFilters])
 
   const handleSubmit = (e) => {
     onSearch({ type, keyword: search });
@@ -20,13 +29,15 @@ export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsT
     return <option value={opt} className="capitalize" key={index}>{opt}</option>
   }
 
+  const inputProps = { search, setSearch, listItems }
+
   return (
     <div className="flex gap-4 flex-wrap justify-between py-4 px-4">
       <div className="flex items-center gap-4 ">
         <HeaderPokemonIcon imgHeight="50px" imgWidth="50px" />
-        <h2 className="text-xl md:text-3xl text-red-400 font-bold">Pokémon App</h2>
+        <h2 className="text-xl md:text-2xl text-red-400 font-bold">Pokémon App</h2>
       </div>
-      <div className=" grow-1 flex  flex-wrap gap-4 items-center justify-center">
+      <div className="max-md:hidden grow-1 flex  flex-wrap gap-4 items-center justify-center">
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
@@ -35,13 +46,16 @@ export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsT
           <option value="">All</option>
           {pokemonsTypes.length > 0 && pokemonsTypes.map(option)}
         </select>
-        <InputField search={search} setSearch={setSearch} listItems={listItems} />
+        <InputField  {...inputProps} />
         <button onClick={handleSubmit} type="submit" className=" py-2 px-4 rounded-sm bg-blue-500 hover:bg-blue-600  text-white">
           Search
         </button>
         <button onClick={resetHandler} type="reset" className=" py-2 px-4 rounded-sm hover:bg-yellow-600 bg-yellow-500 text-black">
           Reset
         </button>
+      </div>
+      <div className="md:hidden flex items-center">
+        {memoSidebar}
       </div>
     </div>
   );
@@ -50,6 +64,10 @@ export default function SearchForm({ listItems, onSearch, resetFilter, pokemonsT
 export const InputField = ({ search, setSearch, inputStyle = {}, listItems = [] }) => {
   const [text, setText] = useState(search)
   const [focus, setFocus] = useState(false)
+
+  useEffect(() => {
+    setText(search)
+  }, [search])
 
   useEffect(() => {
     let tm = null
@@ -78,13 +96,15 @@ export const InputField = ({ search, setSearch, inputStyle = {}, listItems = [] 
     setFocus(false)
   }
 
-  return <div style={{ alignItems: "center" }} className="relative h-full flex justify-center InputField">
+  return <div
+    onMouseLeave={blurFocus}
+    style={{ alignItems: "center" }} className="relative h-full flex justify-center InputField">
     <input
       type="text" list="browsers"
       value={text}
       style={inputStyle}
       onFocus={activeFocus}
-      onBlur={blurFocus}
+      // onBlur={blurFocus}
       onChange={(e) => setText(e.target.value)}
       placeholder="Search Pokémon"
       className="py-2 px-4 h-full max-md:h-10 rounded-sm border border-gray-300"
