@@ -1,7 +1,9 @@
 export const baseUrl = "https://pokeapi.co/api/v2/pokemon/";
 
 export async function fetchPokemons(pageNum = 0) {
-  const res = await fetch(`${baseUrl}?limit=20&offset=${pageNum * 20}`);
+  const res = await fetch(`${baseUrl}?limit=20&offset=${pageNum * 20}`, {
+    cache: "force-cache",
+  });
   const listData = await res.json();
   const allPromise = listData.results.map((val) => {
     const id = getPokemonId(val.url);

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { HeaderPokemonIcon } from "./Loader";
 import Sidebar from "./Sidebar";
 
@@ -7,8 +7,6 @@ export default function SearchForm(props) {
   const { activeFilters, listItems, onSearch, resetFilter, pokemonsTypes = [] } = props
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
-
-  const memoSidebar = useMemo(() => <Sidebar {...props} />, [activeFilters.type, activeFilters.keyword])
 
   useEffect(() => {
     setType(activeFilters.type)
@@ -35,13 +33,13 @@ export default function SearchForm(props) {
     <div className="flex gap-4 flex-wrap justify-between py-4 px-4">
       <div className="flex items-center gap-4 ">
         <HeaderPokemonIcon imgHeight="50px" imgWidth="50px" />
-        <h2 className="text-xl md:text-2xl text-red-400 font-bold">Pokémon App</h2>
+        <h2 className="text-xl md:text-2xl text-slate-900 font-bold">Pokémon App</h2>
       </div>
       <div className="max-md:hidden grow-1 flex  flex-wrap gap-4 items-center justify-center">
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="mr-2 py-2 px-4 rounded-sm border capitalize border-gray-300"
+          className="mr-2 py-2 px-4 rounded-sm border capitalize border-slate-500"
         >
           <option value="">All</option>
           {pokemonsTypes.length > 0 && pokemonsTypes.map(option)}
@@ -55,7 +53,7 @@ export default function SearchForm(props) {
         </button>
       </div>
       <div className="md:hidden flex items-center">
-        {memoSidebar}
+        <Sidebar {...props} />
       </div>
     </div>
   );
@@ -106,10 +104,10 @@ export const InputField = ({ search, setSearch, inputStyle = {}, listItems = [] 
       style={inputStyle}
       onChange={(e) => setText(e.target.value)}
       placeholder="Search Pokémon"
-      className="py-2 px-4 h-full max-md:h-10 rounded-sm border border-gray-300"
+      className="py-2 px-4 h-full max-md:h-10 rounded-sm border border-slate-500"
     />
     <ul id="ul_List"
-      className={`absolute left-0 top-[100%] w-full max-h-[300px] overflow-y-auto  border-1 border-gray-300 py-2 rounded-b-lg ${focus && "active"}`}>
+      className={`absolute left-0 top-[100%] w-full max-h-[300px] overflow-y-auto  border-1 border-slate-500 py-2 rounded-b-lg ${focus && "active"}`}>
       {listItems.length > 0 ? listItems.filter((val) => val.name.includes(text)).map(dataListoption) : <p className="px-2 py-2 bg-white cursor-pointer">No results.</p>}
     </ul>
   </div>

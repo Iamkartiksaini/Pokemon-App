@@ -6,8 +6,10 @@ const Loader = ({ height = "100vh" }) => {
     function Section({ src }) {
         const contianerClass = 'flex flex-col justify-center items-center gap-4 h-screen'
         return <div style={{ height }} className={contianerClass} >
-            <Image style={{ width: "120px", height: "120px" }} width={120} src={src} height={120} alt='Pokemon' />
-            <h1>Loading...</h1>
+            <div className='bg-neutral-100 border-2 border-cyan-400 p-6 rounded-full'>
+                <Image style={{ width: "120px", height: "120px" }} width={120} src={src} height={120} alt='Pokemon' />
+            </div>
+            <p className='text-2xl font-medium'>Loading...</p>
         </div>
     }
 

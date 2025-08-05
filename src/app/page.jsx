@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, Fragment, useCallback } from 'react';
+import { useState, useEffect, Fragment, useCallback, useDeferredValue, } from 'react';
 import SearchForm from '../components/SearchForm';
 import PokemonCard, { ObserverComponent } from '../components/PokemonCard';
 import { fetchPokemons } from '@/utils/api';
@@ -15,8 +15,10 @@ export default function Page() {
 
 function PageData() {
   const { storageItems, storagePokemonTypes, getData, saveNewData } = useStoreValues()
+  const deferredValue = useDeferredValue(storageItems, []);
   const [apiData, setData] = useState(null);
   const [activeFilters, setActiveFilters] = useState({ type: "", keyword: "" })
+
   const getDataFromApi = useCallback(async () => {
     const resp = await fetchPokemons(0);
     setData(resp)
@@ -51,7 +53,7 @@ function PageData() {
   };
 
 
-  let localDataArr = [...storageItems].filter((val) => {
+  let localDataArr = deferredValue.filter((val) => {
     const matchesSearch = activeFilters.keyword === "" || val.name.toLowerCase().includes(activeFilters.keyword.toLowerCase());
     const matchesType = activeFilters.type ? val.types.includes(activeFilters.type) : true;
     return matchesSearch && matchesType;
@@ -73,15 +75,16 @@ function PageData() {
   const headerProps = { activeFilters, listItems: storageItems, pokemonsTypes: storagePokemonTypes || [], resetFilter, onSearch: setActiveFilters }
 
   return (
-    <div className='p-4 relative'>
+    <div className='p-4 relative w-full'>
       <header
         style={{ backgroundColor: "#ffffff8f", backdropFilter: "blur(3px)" }}
         className='Header w-full z-10  border-2 border-gray-100  shadow-black-50  shadow-2xl  rounded-lg mb-6'>
         <SearchForm {...headerProps} />
       </header>
-      {localDataArr.length == 0 ? <h3 className='text-center'>No Result Found</h3> : <div className="Gallery relative z-[2] grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
+
+      {localDataArr.length == 0 ? <h3 className='text-center'>No Result Found</h3> : <main className="Gallery relative z-[2] grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
         {localDataArr.map(cardRender)}
-      </div>}
+      </main>}
       <div id="moreItemLoader"></div>
       {/* <Pagination handlePageChange={handlePageChange} activeItemsCount={localDataArr} totalItems={apiData.count} /> */}
     </div>

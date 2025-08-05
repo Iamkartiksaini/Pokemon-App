@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { InputField } from './SearchForm';
 import { createPortal } from 'react-dom';
 
-export default function Sidebar({ activeFilters, listItems, onSearch, resetFilter, pokemonsTypes = [] }) {
+const Sidebar = memo(({ activeFilters, listItems, onSearch, resetFilter, pokemonsTypes = [] }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [type, setType] = useState("");
     const [search, setSearch] = useState(activeFilters.keyword || "");
@@ -75,5 +75,7 @@ export default function Sidebar({ activeFilters, listItems, onSearch, resetFilte
                 , document.body)}
         </div>
     )
-}
+})
 
+
+export default Sidebar

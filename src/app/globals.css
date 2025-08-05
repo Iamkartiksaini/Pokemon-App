@@ -1,7 +1,6 @@
 @import "tailwindcss";
-
-* {
-  box-sizing: border-box;
+body {
+  font-family: var(--font-poppins), sans-serif;
 }
 
 .InputField {
@@ -19,5 +18,24 @@
     visibility: visible;
     color: #000;
     display: block;
+  }
+}
+
+@keyframes movePupil {
+  0%,
+  to {
+    transform: translate(0);
+  }
+
+  25% {
+    transform: translate(-10px, -10px);
+  }
+
+  50% {
+    transform: translate(10px, 10px);
+  }
+
+  75% {
+    transform: translate(-10px, 10px);
   }
 }
